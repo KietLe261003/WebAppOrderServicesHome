@@ -5,7 +5,6 @@ const router = express.Router();
 import { userController } from '../Controller/index.js';
 
 router.post("/Login",userController.login);
-
-router.post("/test",userController.pushTest);
+router.post("/resgiter",userController.resgiter);
 
 export default router;

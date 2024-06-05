@@ -1,35 +1,36 @@
-import {test} from "../respositories/index.js";
-const login = (req,res)=>{
-    const {id,Name}=req.body;
-    res.status(400).json(
-        {
-            message: "Login successfully",
-            id: id
-        }
-    )
-}
-
-const pushTest = async (req,res)=>{
-    const {name}=req.body;
+import {userRespositories} from '../respositories/index.js';
+import statusCode from '../exceptions/HttpStatusCode.js';
+const login = async (req,res)=>{
     try {
-        let testP=await test.testPush({name});
-        if(testP)
-        {
-            res.status(400).json({
-                message: "Push được",
-                data: testP
-            })
-        }
-        else
-        {
-            console.log("Chưa thành công");
-        }
-    } catch (error) {
-        console.log("test thất bại")
+        const {username,password}= req.body;
+        const user=await userRespositories.login({username,password});
+        res.json({
+            message: "Login successfully",
+            data: user
+        })
+    } catch (exceptions) {
+        res.status(statusCode.BAD_REQUEST).json({
+            message: exceptions.toString()
+        })
+    }
+}
+const resgiter = async (req,res)=>{
+    try {
+        const {username, password, fullname, phonenumber, email, address}=req.body;
+        let newUser= await userRespositories.resgiter({username, password, fullname, phonenumber, email, address});
+        res.status(statusCode.INSERT_OK).json({
+            message: "Đăng ký người dùng",
+            data: newUser
+        })
+    } catch (exceptions) {
+        res.status(statusCode.BAD_REQUEST).json({
+            message: exceptions.toString()
+        })
     }
 }
 
+
 export default {
     login,
-    pushTest
+    resgiter
 }
