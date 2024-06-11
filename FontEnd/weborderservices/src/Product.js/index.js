@@ -1,11 +1,10 @@
-import { useParams } from "react-router-dom";
+import ListProduct from "../Components/listProduct";
+
 
 function Product() {
-    const {id}= useParams();
     return ( 
         <div>
-            This is Product
-            <p>{id}</p> 
+            <ListProduct></ListProduct>
         </div>
      );
 }

@@ -1,21 +1,32 @@
 import { useParams } from "react-router-dom";
+import request from "../utils/request";
+import { useState } from "react";
+import ServicesLayout from "./components/servicesLayout";
+import SliderLayout from "./components/sliderLayout";
+import ClientSay from "./components/clientSayLayout";
+import Brand from "./components/brand";
+import Banner from "./components/banner";
+import ListProduct from "../Components/listProduct";
 
 function Home() {
     const { id } = useParams();
+    const [allUser,setAllUser]=useState([]);
+    const getAllUser = ()=>{
+        request.get("/user/alluser").then((res)=>{
+            setAllUser(res.data.data);
+        }).catch(()=>{
+            console.log("Axios thất bại đm");
+        })
+    }
     return (
         <div>
-            This is HOme
-            <div>{id}</div>
-            <div class="relative flex gap-10 min-h-screen flex-col justify-center items-center overflow-hidden bg-gray-50 py-6 sm:py-12">
-                <button class="btn overflow-hidden relative w-64 bg-blue-500 text-white py-4 px-4 rounded-xl font-bold uppercase -- before:block before:absolute before:h-full before:w-full before:bg-red-300 before:left-0 before:top-0 before:-translate-y-full hover:before:translate-y-0 before:transition-transform">
-                    <span class="relative">Bouton</span>
-                </button>
-                <button class="btn overflow-hidden relative w-64 bg-blue-500 text-white py-4 px-4 rounded-xl font-bold uppercase -- before:block before:absolute before:h-full before:w-1/2 before:rounded-full before:bg-orange-400 before:top-0 before:left-1/4 before:transition-transform before:opacity-0 before:hover:opacity-100 hover:text-orange-200 hover:before:animate-ping transition-all duration-300">
-                    <span class="relative">Bouton</span>
-                </button>
-                <button class="btn-default overflow-hidden relative w-64 bg-stone-50 text-gray-900 py-4 px-4 rounded-xl font-bold uppercase transition-all duration-100 -- hover:shadow-md border border-stone-100 hover:bg-gradient-to-t hover:from-stone-100 before:to-stone-50 hover:-translate-y-[3px]">
-                    <span class="relative">Bouton</span>
-                </button>
+            <Banner/>
+            <div style={{padding: '260px 0 87px 0' }}>
+                <ServicesLayout />
+                <SliderLayout/>
+                <ListProduct/>
+                <ClientSay />
+                <Brand />
             </div>
         </div>
     );

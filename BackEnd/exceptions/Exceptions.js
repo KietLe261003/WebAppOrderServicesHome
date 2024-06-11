@@ -6,6 +6,7 @@ export default class Exception extends Error {
     static Wrong_Push_User="Lỗi thêm người dùng";
     static Wrong_UserNameorEmail="Lỗi trùng tên đăng nhập hoặc email";
     static Not_Find_User="Không tìm thấy người dùng này";
+    static Create_NewCar_Fail="Lỗi thêm xe mới";
     constructor(message){
         super(message);
         print(message,OutputType.ERROR);

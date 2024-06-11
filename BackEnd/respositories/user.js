@@ -38,9 +38,10 @@ const login = async ({username,password})=>{
 
 const resgiter = async ({username,password,fullname,phonenumber,email,address})=>{
     try {
-        let checkUserName = user.findOne({username}).exec();
-        let checkEmail = user.findOne({email});
-        if(checkUserName!==null && checkEmail!==null)
+        let checkUserName = await user.findOne({username}).exec();
+        let checkEmail = await user.findOne({email}).exec();
+        debugger;
+        if(checkUserName===null && checkEmail===null)
         {
             let brPassword = await bcrypt.hash(password,parseInt(process.env.BRCRYPT_PASSWORD));
             let newUser = await user.create({
@@ -55,17 +56,24 @@ const resgiter = async ({username,password,fullname,phonenumber,email,address})=
                 ...newUser._doc,
                 password: "Not show",
             }
+            //undefined
         }
         else
         {
-            
             throw new Exceptions(Exceptions.Wrong_UserNameorEmail);
         }
     } catch (error) {
-        throw new Exceptions(Exceptions.Wrong_Push_User);
+        throw new Exceptions(Exceptions.Wrong_UserNameorEmail);
     }
+}
+
+const getAllUser = async ()=>{
+    const allUser= await user.find({}).exec();
+    debugger;
+    return allUser;
 }
 export default {
     login,
-    resgiter
+    resgiter,
+    getAllUser
 }
